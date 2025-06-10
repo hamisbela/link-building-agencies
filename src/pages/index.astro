@@ -1,0 +1,442 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import CompanyCard from '../components/CompanyCard.astro';
+import { companies } from '../data/companies';
+---
+
+<Layout title="Link Building Agency Directory - Find Top Link Building Agencies Worldwide">
+  <Hero />
+  <main class="main-content">
+    <section class="companies-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="text-gradient">Featured</span> Link Building Agencies
+        </h2>
+        <p class="section-subtitle">
+          Discover top-rated link building agencies from around the world. Each agency has been carefully vetted for quality, reliability, and proven results.
+        </p>
+      </div>
+      
+      <div class="seo-content">
+        <div class="content-block">
+          <h3>Why Use Our Link Building Agency Directory?</h3>
+          <p>Finding the right link building agency can be challenging. Our comprehensive directory simplifies your search by providing detailed profiles of verified agencies, complete with pricing, services, locations, and client reviews. Whether you need guest posting, digital PR, or specialized link building services, you'll find the perfect agency partner here.</p>
+          
+          <p>Every agency in our directory has been thoroughly vetted for quality and ethical practices. We only feature agencies that use white-hat techniques and have a proven track record of delivering measurable results for their clients.</p>
+        </div>
+      </div>
+      
+      <div class="filter-bar">
+        <div class="filter-group">
+          <button class="filter-btn active">All Agencies</button>
+          <button class="filter-btn">Guest Posting</button>
+          <button class="filter-btn">Digital PR</button>
+          <button class="filter-btn">Broken Link Building</button>
+        </div>
+        <div class="sort-group">
+          <select class="sort-select">
+            <option value="rating">Sort by Rating</option>
+            <option value="name">Sort by Name</option>
+            <option value="location">Sort by Location</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="companies-grid">
+        {companies.map((company, index) => (
+          <div class="company-item animate-fade-in-up" style={`animation-delay: ${index * 0.1}s`}>
+            <CompanyCard company={company} />
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="location-cta">
+      <div class="location-content">
+        <h2>Find Link Building Agencies by Location</h2>
+        <p>Browse our directory by location to find agencies in your area or target market. We feature agencies from major cities and countries worldwide.</p>
+        <div class="location-grid">
+          <a href="/location/united-states" class="location-card">
+            <h3>🇺🇸 United States</h3>
+            <p>Leading agencies across all 50 states</p>
+          </a>
+          <a href="/location/united-kingdom" class="location-card">
+            <h3>🇬🇧 United Kingdom</h3>
+            <p>Top UK-based link building specialists</p>
+          </a>
+          <a href="/location/canada" class="location-card">
+            <h3>🇨🇦 Canada</h3>
+            <p>Premium Canadian SEO agencies</p>
+          </a>
+          <a href="/location/australia" class="location-card">
+            <h3>🇦🇺 Australia</h3>
+            <p>Expert Australian link builders</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2>Ready to Boost Your Rankings?</h2>
+        <p class="cta-subtitle">
+          Join thousands of businesses who have found their perfect link building agency through our directory. Start your search today and take your SEO to the next level.
+        </p>
+        <div class="cta-buttons">
+          <a href="/contact" class="btn btn-primary btn-large">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Get Expert Recommendations
+          </a>
+          <a href="#companies" class="btn btn-outline btn-large">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polygon points="10,8 16,12 10,16 10,8"/>
+            </svg>
+            Browse All Agencies
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .main-content {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 2rem;
+  }
+
+  .companies-section {
+    padding: 4rem 0;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--neutral-800);
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--neutral-600);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .seo-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+    margin-bottom: 3rem;
+  }
+
+  .content-block h3 {
+    color: var(--neutral-800);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .content-block p {
+    color: var(--neutral-600);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+  }
+
+  .filter-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--neutral-300);
+    background: white;
+    color: var(--neutral-600);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: var(--gradient-primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .sort-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .sort-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--neutral-300);
+    border-radius: 12px;
+    background: white;
+    color: var(--neutral-700);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .sort-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .companies-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  .company-item {
+    opacity: 0;
+  }
+
+  .location-cta {
+    padding: 4rem 0;
+    background: var(--neutral-50);
+    border-radius: 24px;
+    margin: 4rem 0;
+  }
+
+  .location-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .location-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--neutral-800);
+  }
+
+  .location-content p {
+    font-size: 1.125rem;
+    color: var(--neutral-600);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .location-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .location-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+  }
+
+  .location-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-light);
+  }
+
+  .location-card h3 {
+    color: var(--neutral-800);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .location-card p {
+    color: var(--neutral-600);
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .cta-section {
+    padding: 6rem 0;
+    background: var(--gradient-primary);
+    border-radius: 24px;
+    margin: 4rem 0;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-content h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .cta-subtitle {
+    font-size: 1.125rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+  }
+
+  .btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+  }
+
+  .btn-primary {
+    background: white;
+    color: var(--primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+    background: var(--neutral-50);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      padding: 0 1rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .filter-bar {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .filter-group {
+      justify-content: center;
+    }
+
+    .companies-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .location-cta {
+      padding: 3rem 1rem;
+      margin: 2rem -1rem;
+      border-radius: 0;
+    }
+
+    .location-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-section {
+      padding: 4rem 2rem;
+      margin: 2rem -1rem;
+      border-radius: 0;
+    }
+
+    .cta-content h2 {
+      font-size: 1.75rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-large {
+      width: 100%;
+      max-width: 300px;
+      justify-content: center;
+    }
+  }
+</style>

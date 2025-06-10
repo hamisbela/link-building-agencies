@@ -1,0 +1,314 @@
+---
+import type { Company } from '../types/Company';
+
+interface Props {
+  company: Company;
+}
+
+const { company } = Astro.props;
+---
+
+<div class="company-card hover-lift">
+  <div class="card-header">
+    <div class="company-info">
+      <h2 class="company-name">{company.name}</h2>
+      <div class="location">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span>{company.city}, {company.country}</span>
+      </div>
+    </div>
+    <div class="rating-badge">
+      <div class="stars">
+        {Array.from({ length: 5 }, (_, i) => (
+          <span class={i < Math.floor(company.averageReview) ? 'star filled' : 'star'}>★</span>
+        ))}
+      </div>
+      <span class="rating-text">{company.averageReview.toFixed(1)}</span>
+    </div>
+  </div>
+  
+  <p class="description">{company.description}</p>
+  
+  <div class="services">
+    <h3 class="services-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+      </svg>
+      Services
+    </h3>
+    <div class="services-grid">
+      {company.services.map(service => (
+        <div class="service-tag">
+          <span class="service-name">{service.name}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+  
+  <div class="card-footer">
+    <div class="contact-buttons">
+      <a href={company.website} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15,3 21,3 21,9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Visit Website
+      </a>
+      <div class="social-links">
+        {company.socialMedia.map(social => (
+          <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-btn" title={social.platform}>
+            {social.platform === 'twitter' && (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+              </svg>
+            )}
+            {social.platform === 'linkedin' && (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .company-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .company-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+  }
+
+  .company-card:hover {
+    border-color: var(--primary-light);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+  }
+
+  .company-info {
+    flex: 1;
+  }
+
+  .company-name {
+    margin: 0 0 0.75rem 0;
+    color: var(--neutral-800);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--neutral-500);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .location svg {
+    color: var(--primary);
+  }
+
+  .rating-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--neutral-50);
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: 1px solid var(--neutral-200);
+  }
+
+  .stars {
+    display: flex;
+    gap: 2px;
+  }
+
+  .star {
+    color: var(--neutral-300);
+    font-size: 1rem;
+    transition: color 0.2s ease;
+  }
+
+  .star.filled {
+    color: #fbbf24;
+  }
+
+  .rating-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--neutral-700);
+  }
+
+  .description {
+    color: var(--neutral-600);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .services {
+    margin-bottom: 2rem;
+  }
+
+  .services-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--neutral-700);
+  }
+
+  .services-title svg {
+    color: var(--primary);
+  }
+
+  .services-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .service-tag {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+
+  .service-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-footer {
+    border-top: 1px solid var(--neutral-200);
+    padding-top: 1.5rem;
+  }
+
+  .contact-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--neutral-100);
+    color: var(--neutral-600);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid var(--neutral-200);
+  }
+
+  .social-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (max-width: 768px) {
+    .company-card {
+      padding: 1.5rem;
+    }
+
+    .card-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .rating-badge {
+      align-self: flex-end;
+      flex-direction: row;
+      gap: 0.5rem;
+    }
+
+    .contact-buttons {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      justify-content: center;
+    }
+
+    .social-links {
+      justify-content: center;
+    }
+  }
+</style>

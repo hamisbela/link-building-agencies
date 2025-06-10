@@ -1,0 +1,412 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import LocationCompanyCard from '../../components/LocationCompanyCard.astro';
+import { getLocationPages, generateLocationSlug, type LocationData } from '../../utils/csvLoader';
+import { generateSEOContent } from '../../utils/seoContent';
+
+export async function getStaticPaths() {
+  const locations = await getLocationPages();
+  
+  return locations.map((location: LocationData) => {
+    const slug = generateLocationSlug(location);
+    const slugParts = slug.replace('location/', '').split('/');
+    
+    return {
+      params: { slug: slugParts.join('/') },
+      props: { location }
+    };
+  });
+}
+
+interface Props {
+  location: LocationData;
+}
+
+const { location } = Astro.props;
+const seo = generateSEOContent(location);
+
+// Sort companies by rating (simulated) and name
+const sortedCompanies = location.companies.sort((a, b) => {
+  return a.companyName.localeCompare(b.companyName);
+});
+---
+
+<Layout title={seo.title}>
+  <main class="location-page">
+    <section class="location-hero">
+      <div class="hero-content">
+        <nav class="breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/locations">Locations</a>
+          <span>/</span>
+          {location.type === 'state' && (
+            <>
+              <a href={`/location/united-states`}>United States</a>
+              <span>/</span>
+            </>
+          )}
+          {location.type === 'city' && location.state && (
+            <>
+              <a href={`/location/united-states`}>United States</a>
+              <span>/</span>
+              <a href={`/location/united-states/${location.state.toLowerCase()}`}>{location.state}</a>
+              <span>/</span>
+            </>
+          )}
+          {location.type === 'city' && !location.state && location.country !== location.name && (
+            <>
+              <a href={`/location/${location.country.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}>{location.country}</a>
+              <span>/</span>
+            </>
+          )}
+          <span>{location.name}</span>
+        </nav>
+
+        <h1 class="hero-title">{seo.h1}</h1>
+        
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-number">{location.companies.length}</div>
+            <div class="stat-label">Companies</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">{location.type === 'city' ? 'Local' : 'Regional'}</div>
+            <div class="stat-label">Expertise</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">Verified</div>
+            <div class="stat-label">Listings</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="location-content">
+      <div class="content-wrapper">
+        <div class="intro-section" set:html={seo.intro}></div>
+
+        <div class="companies-section">
+          <div class="section-header">
+            <h2>Top Link Building Companies {location.type === 'city' ? `in ${location.name}` : `in ${location.name}`}</h2>
+            <div class="filter-controls">
+              <select class="sort-select">
+                <option value="name">Sort by Name</option>
+                <option value="rating">Sort by Rating</option>
+                <option value="employees">Sort by Size</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="companies-grid">
+            {sortedCompanies.map((company, index) => (
+              <div class="company-item animate-fade-in-up" style={`animation-delay: ${index * 0.1}s`}>
+                <LocationCompanyCard company={company} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="seo-content">
+          <div class="content-section" set:html={seo.whatTheyDo}></div>
+          <div class="content-section" set:html={seo.howToChoose}></div>
+        </div>
+
+        <div class="cta-section">
+          <div class="cta-content">
+            <h2>Need Help Choosing?</h2>
+            <p>Our experts can help you find the perfect link building partner for your specific needs and budget.</p>
+            <a href="/contact" class="btn btn-primary btn-large">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Get Expert Advice
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .location-page {
+    color: var(--neutral-700);
+  }
+
+  .location-hero {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .location-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  }
+
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .breadcrumb a {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .breadcrumb a:hover {
+    opacity: 0.8;
+  }
+
+  .breadcrumb span {
+    opacity: 0.6;
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    opacity: 0.8;
+  }
+
+  .location-content {
+    background: var(--neutral-50);
+  }
+
+  .content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .intro-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+    margin-bottom: 3rem;
+  }
+
+  .intro-section :global(p) {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--neutral-600);
+  }
+
+  .companies-section {
+    margin-bottom: 4rem;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  .section-header h2 {
+    color: var(--neutral-800);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .filter-controls {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .sort-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--neutral-300);
+    border-radius: 8px;
+    background: white;
+    color: var(--neutral-700);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .companies-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  .company-item {
+    opacity: 0;
+  }
+
+  .seo-content {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .content-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+  }
+
+  .content-section :global(h2) {
+    color: var(--neutral-800);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .content-section :global(h3) {
+    color: var(--neutral-700);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem 0;
+  }
+
+  .content-section :global(p) {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--neutral-600);
+  }
+
+  .content-section :global(ul) {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .content-section :global(li) {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    color: var(--neutral-600);
+  }
+
+  .content-section :global(strong) {
+    color: var(--neutral-800);
+    font-weight: 600;
+  }
+
+  .cta-section {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 3rem;
+    border-radius: 20px;
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+  }
+
+  .btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+  }
+
+  .btn-primary {
+    background: white;
+    color: var(--primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  @media (max-width: 768px) {
+    .location-hero {
+      padding: 3rem 1rem;
+    }
+
+    .content-wrapper {
+      padding: 3rem 1rem;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .companies-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-stats {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-section {
+      padding: 2rem;
+    }
+  }
+</style>

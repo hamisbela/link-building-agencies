@@ -1,0 +1,292 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About Us - LinkBuilder Directory">
+  <main class="about-page">
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          About <span class="text-gradient">LinkBuilder Directory</span>
+        </h1>
+        <p class="hero-subtitle">
+          We're passionate about connecting businesses with the world's best link building professionals
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="content-grid">
+        <div class="content-block glass-effect">
+          <div class="block-icon">🎯</div>
+          <h2>Our Mission</h2>
+          <p>We strive to revolutionize the link building industry by creating transparency, fostering trust, and connecting businesses with verified professionals who deliver measurable results.</p>
+        </div>
+
+        <div class="content-block glass-effect">
+          <div class="block-icon">🔍</div>
+          <h2>What We Do</h2>
+          <p>Our platform carefully curates and reviews link building companies worldwide, providing comprehensive profiles, verified reviews, and detailed service information to help you make informed decisions.</p>
+        </div>
+
+        <div class="content-block glass-effect">
+          <div class="block-icon">⭐</div>
+          <h2>Why Choose Us</h2>
+          <ul class="feature-list">
+            <li>✅ Thoroughly vetted companies</li>
+            <li>✅ Verified customer reviews</li>
+            <li>✅ Detailed service breakdowns</li>
+            <li>✅ Regular quality monitoring</li>
+            <li>✅ Expert recommendations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Verified Companies</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">1000+</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">Success Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Support</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="team-section">
+      <h2 class="section-title">Our <span class="text-gradient">Values</span></h2>
+      <div class="values-grid">
+        <div class="value-card hover-lift">
+          <div class="value-icon">🤝</div>
+          <h3>Trust & Transparency</h3>
+          <p>We believe in complete transparency. Every company in our directory is thoroughly vetted and continuously monitored.</p>
+        </div>
+        <div class="value-card hover-lift">
+          <div class="value-icon">🎖️</div>
+          <h3>Quality Excellence</h3>
+          <p>We maintain the highest standards and only feature companies that demonstrate proven track records and ethical practices.</p>
+        </div>
+        <div class="value-card hover-lift">
+          <div class="value-icon">🚀</div>
+          <h3>Innovation</h3>
+          <p>We continuously improve our platform to provide the best user experience and most accurate information.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .about-page {
+    color: var(--neutral-700);
+  }
+
+  .hero-section {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  .content-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .content-block {
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    border: 1px solid var(--neutral-200);
+  }
+
+  .block-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .content-block h2 {
+    color: var(--neutral-800);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .content-block p {
+    line-height: 1.6;
+    color: var(--neutral-600);
+  }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  .feature-list li {
+    margin-bottom: 0.75rem;
+    color: var(--neutral-600);
+    font-weight: 500;
+  }
+
+  .stats-section {
+    background: var(--neutral-100);
+    padding: 4rem 2rem;
+  }
+
+  .stats-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    color: var(--neutral-600);
+    font-weight: 500;
+  }
+
+  .team-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: var(--neutral-800);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .value-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--neutral-200);
+    text-align: center;
+  }
+
+  .value-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .value-card h3 {
+    color: var(--neutral-800);
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .value-card p {
+    color: var(--neutral-600);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 4rem 1rem;
+    }
+
+    .content-section {
+      padding: 4rem 1rem;
+    }
+
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-section {
+      padding: 3rem 1rem;
+    }
+
+    .team-section {
+      padding: 4rem 1rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+  }
+</style>
